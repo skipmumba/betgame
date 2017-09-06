@@ -42,7 +42,7 @@ class addmatch extends CI_Controller{
 		$this->db->delete('catgame', array('cat_id' => $id));
 		if($this->db->affected_rows())
 			{
-			 	 redirect($this->config->item('hostng').'/addgame','refresh');
+			 	 redirect($this->config->item('hostng'),'refresh');
 			}	 
 	}
 

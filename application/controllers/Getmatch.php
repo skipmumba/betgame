@@ -26,8 +26,9 @@ class getmatch extends CI_Controller
 			$catName = $row->cat_name;
 			$catId = $row->cat_id;
 			$catOrder = $row->order;		
+			$arrayDate = array($dateNow['day'],$dateNow['day']+1,$dateNow['day']+2,$dateNow['day']+3,$dateNow['day']+4,$dateNow['day']+5);
 			$this->db->from('matchgame');
-			$this->db->where('day',$dateNow['day']);
+			$this->db->where_in('day',$arrayDate);
 			$this->db->where('month',$dateNow['month']);
 			$this->db->where('year',$dateNow['year']);
 			$this->db->where('cat_id',$catId);
@@ -54,6 +55,7 @@ class getmatch extends CI_Controller
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['price1'] = $matchData->team1price;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['price2'] = $matchData->team2price;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['statusgame'] = $matchData->statusgame;
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['time'] = $matchData->time;
 				}
 				$matchIn++;
 			}	
@@ -64,6 +66,7 @@ class getmatch extends CI_Controller
 		}
 		// echo '<pre>';
 		echo json_encode($matchArray);
+		// print_r($matchArray);
 	}
 	public function getDate()
 	{
