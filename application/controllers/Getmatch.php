@@ -50,12 +50,31 @@ class getmatch extends CI_Controller
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['day'] = $matchData->day;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['month'] = $matchData->month;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['year'] = $matchData->year;
-					$matchArray[$indexArray]['matchDetail'][$matchIn]['percent1'] = $matchData->team1percent;
-					$matchArray[$indexArray]['matchDetail'][$matchIn]['percent2'] = $matchData->team2percent;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['price1'] = $matchData->team1price;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['price2'] = $matchData->team2price;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['statusgame'] = $matchData->statusgame;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['time'] = $matchData->time;
+					$calpercent = $this->findPercent($matchData->team1price,$matchData->team2price);
+					$plusSum = $matchData->team1price+$matchData->team2price;
+					if($matchData->team1price == 1 && $matchData->team2price == 1)
+					{
+						
+						$percentA = 0;
+						$percentB = 0;	
+					}
+					else 
+					{
+						$percentA = $calpercent[0];
+						$percentB = $calpercent[1];					
+					}
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['percentA'] = $percentA;
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['percentB'] = $percentB;
+					$calOdds=$this->findOdds($percentA,$percentB);
+					$oddA = $matchData->team2price != 1?$calOdds[0]:1; // if no bet return odd 1
+					$oddB = $matchData->team1price != 1?$calOdds[1]:1; // if no bet return odd 1
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['oddA'] = $oddA;
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['oddB'] = $oddB;
+
 				}
 				$matchIn++;
 			}	
@@ -64,10 +83,71 @@ class getmatch extends CI_Controller
 				$indexArray++;
 			}
 		}
+		// echo 1/10000;
 		// echo '<pre>';
 		echo json_encode($matchArray);
 		// print_r($matchArray);
 	}
+
+	public function findPercent($team1,$team2)
+	{
+		//assume
+		// Team A = 5,284/11,333 = 0.466*100 = 46.6% round(47%)	
+		// Team B = 6,049/11,333 = 0.533*100 = 53.3% round(53%)
+		// Team A 47% Team B 53%	
+
+		$sum = $team1+$team2;
+		$percentA = round(($team1/$sum)*100);
+		$percentB = round(($team2/$sum)*100);
+		return array($percentA,$percentB);
+	}
+
+	public function findOdds($percentA,$percentB)
+	{
+		// assume
+		// percent A 47
+		// percent B 53
+		// Team A = 53/47 1.12 floor(1.10) +1 = 2.10 = x2.10
+		// Team B = 47/53 0.88 floor(0.80) +1 = 1.80 = x1.80
+		if($percentA != 0)
+		{
+			$oddA =  $this->floorp(($percentB/$percentA)+1,2);
+			if($oddA > 91)
+			{
+				$oddA = 92;
+			}
+		
+
+		}
+		else 
+		{
+			$oddA = 92;
+		}
+		if($percentB != 0)
+		{
+			$oddB =  $this->floorp(($percentA/$percentB)+1,2);
+			if($oddB > 91)
+			{
+				$oddB = 92;
+			}
+	
+		}
+		else 
+		{
+			$oddB = 92;
+		}
+				
+		return array($oddA,$oddB);	
+	}
+
+	function floorp($val, $precision)
+	{
+	    $mult = pow(10, $precision);
+	    return floor($val * $mult) / $mult;
+	}
+
+
+
 	public function getDate()
 	{
 		$json = file_get_contents('https://script.google.com/macros/s/AKfycbyd5AcbAnWi2Yn0xhFRbyzS4qMq1VucMVgVvhul5XqS9HkAyJY/exec?tz=Asia/Bangkok');
