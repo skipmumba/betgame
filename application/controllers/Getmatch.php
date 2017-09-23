@@ -43,6 +43,7 @@ class getmatch extends CI_Controller
 					$matchArray[$indexArray]['catID'] = $catId;
 					$matchArray[$indexArray]['catOrder'] = $catOrder;		
 
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['matchID'] = $matchData->match_id;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['team1'] = $matchData->team_1;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['team2'] = $matchData->team_2;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['pic1'] = $matchData->team1pic;
