@@ -13,13 +13,18 @@ class addmatch extends CI_Controller{
 	{
 		if(isset($_POST['catname']))
 		{
-			$data = array(
-			        'cat_name' => $this->input->post('catname')
-			);
-
-			if($this->db->insert('catgame', $data))
+			if(isset($_POST['catimage']))
 			{
-				redirect($_POST['hostng'].'/addgame','refresh');
+
+				$data = array(
+				        'cat_name' => $this->input->post('catname'),
+				        'cat_image' => $this->input->post('catimage'),
+				);
+
+				if($this->db->insert('catgame', $data))
+				{
+					redirect($_POST['hostng'].'/addgame','refresh');
+				}
 			}
 		}
 	}

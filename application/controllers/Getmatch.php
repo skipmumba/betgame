@@ -1,7 +1,7 @@
 <?php
 class getmatch extends CI_Controller 
 {
-	public function getlistMatch($d=0,$m=0,$y=0)
+	public function getlistMatch($d=0,$m=0,$y=0,$catInput=0)
 	{
 		if($d==0 and $m==0 and $y==0)
 		{
@@ -16,6 +16,11 @@ class getmatch extends CI_Controller
 		
 		$this->db->from('catgame');
 		$this->db->order_by("order", "asc");
+		if($catInput != 0)
+		{
+
+			$this->db->where('cat_id',$catInput);
+		}
 		$query = $this->db->get(); 
 		$matchArray = array();
 		$indexArray = 0;
@@ -26,6 +31,7 @@ class getmatch extends CI_Controller
 			$catName = $row->cat_name;
 			$catId = $row->cat_id;
 			$catOrder = $row->order;		
+			$catImage = $row->cat_image;		
 			$arrayDate = array($dateNow['day'],$dateNow['day']+1,$dateNow['day']+2,$dateNow['day']+3,$dateNow['day']+4,$dateNow['day']+5);
 			$this->db->from('matchgame');
 			$this->db->where_in('day',$arrayDate);
@@ -40,6 +46,7 @@ class getmatch extends CI_Controller
 				{
 					$notNullCat = true;
 					$matchArray[$indexArray]['catName'] = $catName;
+					$matchArray[$indexArray]['catImage'] = $catImage;
 					$matchArray[$indexArray]['catID'] = $catId;
 					$matchArray[$indexArray]['catOrder'] = $catOrder;		
 
@@ -118,7 +125,7 @@ class getmatch extends CI_Controller
 		{	
 			if($timeNow['minute'] < 10)
 			{
-				$timeNow['minute'] = '0'.timeNow['minute'];
+				$timeNow['minute'] = '0'.$timeNow['minute'];
 			}
 			$hourMin =  explode(':', $time);
 			$hourMinNow = $timeNow['hour'].$timeNow['minute'];
@@ -126,7 +133,7 @@ class getmatch extends CI_Controller
 				if($hourMinNow >= $hourInput)
 				{
 
-					return 'กำลังแข่ง';
+					return 'แข่งแล้ว';
 				}
 				else 
 				{
@@ -139,7 +146,7 @@ class getmatch extends CI_Controller
 			{
 				if($timeNow['day'] > $d)
 				{
-					return 'กำลังแข่ง';
+					return 'แข่งแล้ว';
 				}
 				else 
 				{
@@ -150,7 +157,7 @@ class getmatch extends CI_Controller
 			{
 				if($timeNow['month'] > $m)
 				{
-					return 'กำลังแข่ง';
+					return 'แข่งแล้ว';
 				}
 				else 
 				{
@@ -413,196 +420,3 @@ class getmatch extends CI_Controller
 
 
 
-// -- phpMyAdmin SQL Dump
-// -- version 4.6.5.2
-// -- https://www.phpmyadmin.net/
-// --
-// -- Host: 127.0.0.1
-// -- Generation Time: Sep 28, 2017 at 10:54 AM
-// -- Server version: 10.1.21-MariaDB
-// -- PHP Version: 5.6.30
-
-// SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-// SET time_zone = "+00:00";
-
-
-// /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-// /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-// /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-// /*!40101 SET NAMES utf8mb4 */;
-
-// --
-// -- Database: `esport`
-// --
-
-// -- --------------------------------------------------------
-
-// --
-// -- Table structure for table `catgame`
-// --
-
-// CREATE TABLE `catgame` (
-//   `cat_id` int(11) NOT NULL,
-//   `cat_name` text COLLATE utf8_unicode_ci NOT NULL,
-//   `order` int(11) DEFAULT NULL
-// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-// --
-// -- Dumping data for table `catgame`
-// --
-
-// INSERT INTO `catgame` (`cat_id`, `cat_name`, `order`) VALUES
-// (12, 'DOTA', 2),
-// (14, 'CS:GO', 1),
-// (16, 'OVER WATCH', 3),
-// (17, 'ROV', 4);
-
-// -- --------------------------------------------------------
-
-// --
-// -- Table structure for table `matchgame`
-// --
-
-// CREATE TABLE `matchgame` (
-//   `match_id` int(11) NOT NULL,
-//   `team_1` text COLLATE utf8_unicode_ci NOT NULL,
-//   `team_2` text COLLATE utf8_unicode_ci NOT NULL,
-//   `team1pic` text COLLATE utf8_unicode_ci NOT NULL,
-//   `team2pic` text COLLATE utf8_unicode_ci NOT NULL,
-//   `day` int(11) NOT NULL,
-//   `month` int(11) NOT NULL,
-//   `year` int(11) NOT NULL,
-//   `time` text COLLATE utf8_unicode_ci NOT NULL,
-//   `team1people` int(11) DEFAULT '0' COMMENT 'จำนวนคน',
-//   `team2people` int(11) DEFAULT '0' COMMENT 'จำนวนคน',
-//   `team1price` float DEFAULT '1' COMMENT 'จำนวนเงิน //default1',
-//   `team2price` float DEFAULT '1' COMMENT 'จำนวนเงิน //default 1',
-//   `winner` text COLLATE utf8_unicode_ci COMMENT 'ผู้ชนะ',
-//   `daycreate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-//   `cat_id` text COLLATE utf8_unicode_ci NOT NULL,
-//   `cat_name` text COLLATE utf8_unicode_ci NOT NULL,
-//   `statusgame` int(11) NOT NULL DEFAULT '0' COMMENT 'สถานะการแข่ง 0 เท่ากับยังไม่เริ่ม 1 เท่ากับแข่งไปแล้ว'
-// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-// --
-// -- Dumping data for table `matchgame`
-// --
-
-// INSERT INTO `matchgame` (`match_id`, `team_1`, `team_2`, `team1pic`, `team2pic`, `day`, `month`, `year`, `time`, `team1people`, `team2people`, `team1price`, `team2price`, `winner`, `daycreate`, `cat_id`, `cat_name`, `statusgame`) VALUES
-// (5, 'Fnatic', 'Evil Geniuses', 'https://www.esportsearnings.com/images/logos/tm118-fnatic-2413.png', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 23, 9, 2017, '11:50', 0, 0, 1500, 250, NULL, '2017-09-22 20:45:09', '12', 'DOTA', 0),
-// (6, 'Invictus Gaming', 'Evil Geniuses', 'https://www.esportsearnings.com/images/logos/tm124-invictus-gaming-5841.png', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 26, 9, 2017, '22:00', 0, 0, 2852, 1530, NULL, '2017-09-22 20:45:51', '16', 'OVER WATCH', 0),
-// (7, 'Wings Gaming', 'Virtus.pro', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', 'https://www.esportsearnings.com/images/logos/tm185-virtus-pro1781.png', 27, 9, 2017, '08:55', 0, 0, 2500, 8500, NULL, '2017-09-22 20:46:18', '16', 'OVER WATCH', 0),
-// (8, 'Invictus Gaming', 'Wings Gaming', 'https://www.esportsearnings.com/images/logos/tm124-invictus-gaming-5841.png', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', 23, 9, 2017, '13:55', 0, 0, 3250, 2785, NULL, '2017-09-22 21:49:29', '12', 'DOTA', 0),
-// (9, 'SK Telecom T1', 'Invictus Gaming', 'https://www.esportsearnings.com/images/logos/tm145-sk-telecom-t1-1662.png', 'https://www.esportsearnings.com/images/logos/tm124-invictus-gaming-5841.png', 26, 9, 2017, '18:00', 0, 0, 800, 1400, NULL, '2017-09-26 09:49:27', '17', 'ROV', 0),
-// (10, 'Natus Vincere', 'Newbee', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm210-newbee-5563.png', 27, 9, 2017, '18:33', 0, 0, 250, 1800, NULL, '2017-09-26 09:52:21', '14', 'CS:GO', 0),
-// (11, 'Fnatic', 'Evil Geniuses', 'https://www.esportsearnings.com/images/logos/tm118-fnatic-2413.png', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 28, 9, 2017, '18:55', 0, 0, 1, 1, NULL, '2017-09-26 09:53:03', '12', 'DOTA', 0),
-// (12, 'Wings Gaming', 'Virtus.pro', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', 'https://www.esportsearnings.com/images/logos/tm185-virtus-pro1781.png', 29, 9, 2017, '01:35', 0, 0, 2500, 8500, NULL, '2017-09-22 20:46:18', '16', 'OVER WATCH', 0),
-// (13, 'Fnatic', 'Evil Geniuses', 'https://www.esportsearnings.com/images/logos/tm118-fnatic-2413.png', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 28, 9, 2017, '01:55', 0, 0, 1, 1, NULL, '2017-09-26 09:53:03', '12', 'DOTA', 0);
-
-// -- --------------------------------------------------------
-
-// --
-// -- Table structure for table `member`
-// --
-
-// CREATE TABLE `member` (
-//   `member_id` int(11) NOT NULL,
-//   `member_email` text COLLATE utf8_unicode_ci NOT NULL,
-//   `member_pass` text COLLATE utf8_unicode_ci NOT NULL,
-//   `member_code` text COLLATE utf8_unicode_ci NOT NULL,
-//   `member_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-//   `member_auth` text COLLATE utf8_unicode_ci,
-//   `member_price` int(11) NOT NULL DEFAULT '0'
-// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-// --
-// -- Dumping data for table `member`
-// --
-
-// INSERT INTO `member` (`member_id`, `member_email`, `member_pass`, `member_code`, `member_date`, `member_auth`, `member_price`) VALUES
-// (54, 'chareef@gmail.com', 'reefaut53', '2009173950', '2017-09-20 20:17:39', NULL, 0),
-// (55, 'mygamepc.com@gmail.com', 'reefaut53', '2109171247', '2017-09-21 18:24:12', NULL, 0),
-// (56, 'hello@hello.com', 'reefaut53', '2209171960', '2017-09-21 22:45:19', NULL, 0);
-
-// -- --------------------------------------------------------
-
-// --
-// -- Table structure for table `storeteam`
-// --
-
-// CREATE TABLE `storeteam` (
-//   `team_id` int(11) NOT NULL,
-//   `team_name` text COLLATE utf8_unicode_ci NOT NULL,
-//   `team_imageurl` text COLLATE utf8_unicode_ci NOT NULL,
-//   `team_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-// --
-// -- Dumping data for table `storeteam`
-// --
-
-// INSERT INTO `storeteam` (`team_id`, `team_name`, `team_imageurl`, `team_date`) VALUES
-// (2, 'Evil Geniuses', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', '2017-08-24 21:34:42'),
-// (3, 'Newbee', 'https://www.esportsearnings.com/images/logos/tm210-newbee-5563.png', '2017-08-24 21:35:04'),
-// (5, 'Wings Gaming', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', '2017-08-24 21:35:37'),
-// (6, 'Fnatic', 'https://www.esportsearnings.com/images/logos/tm118-fnatic-2413.png', '2017-08-24 21:35:58'),
-// (7, 'SK Telecom T1', 'https://www.esportsearnings.com/images/logos/tm145-sk-telecom-t1-1662.png', '2017-08-24 21:36:14'),
-// (8, 'Virtus.pro', 'https://www.esportsearnings.com/images/logos/tm185-virtus-pro1781.png', '2017-08-24 21:36:42'),
-// (9, 'Invictus Gaming', 'https://www.esportsearnings.com/images/logos/tm124-invictus-gaming-5841.png', '2017-08-24 21:36:58'),
-// (10, 'Natus Vincere', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', '2017-08-24 21:37:17');
-
-// --
-// -- Indexes for dumped tables
-// --
-
-// --
-// -- Indexes for table `catgame`
-// --
-// ALTER TABLE `catgame`
-//   ADD PRIMARY KEY (`cat_id`);
-
-// --
-// -- Indexes for table `matchgame`
-// --
-// ALTER TABLE `matchgame`
-//   ADD PRIMARY KEY (`match_id`);
-
-// --
-// -- Indexes for table `member`
-// --
-// ALTER TABLE `member`
-//   ADD PRIMARY KEY (`member_id`);
-
-// --
-// -- Indexes for table `storeteam`
-// --
-// ALTER TABLE `storeteam`
-//   ADD PRIMARY KEY (`team_id`);
-
-// --
-// -- AUTO_INCREMENT for dumped tables
-// --
-
-// --
-// -- AUTO_INCREMENT for table `catgame`
-// --
-// ALTER TABLE `catgame`
-//   MODIFY `cat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-// --
-// -- AUTO_INCREMENT for table `matchgame`
-// --
-// ALTER TABLE `matchgame`
-//   MODIFY `match_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-// --
-// -- AUTO_INCREMENT for table `member`
-// --
-// ALTER TABLE `member`
-//   MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
-// --
-// -- AUTO_INCREMENT for table `storeteam`
-// --
-// ALTER TABLE `storeteam`
-//   MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
