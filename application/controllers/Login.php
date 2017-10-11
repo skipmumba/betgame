@@ -17,7 +17,8 @@ class login extends CI_Controller{
 		{
 			foreach ($query->result() as $row)
 			{			    
-				echo json_encode(array('statusLogin'=>true,'memberCode'=>$row->member_code,'email'=>$row->member_email));
+				echo json_encode(array('statusLogin'=>true,'memberCode'=>$row->member_code,'email'=>$row->member_email,
+					'price'=>$row->member_price));
 			}
 		}
 		else 
