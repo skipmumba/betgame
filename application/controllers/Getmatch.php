@@ -89,8 +89,8 @@ class getmatch extends CI_Controller
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['percentA'] = $percentA;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['percentB'] = $percentB;
 					$calOdds=$this->findOdds($percentA,$percentB);
-					$oddA = $matchData->team2price != 1?$calOdds[0]:1; // if no bet return odd 1
-					$oddB = $matchData->team1price != 1?$calOdds[1]:1; // if no bet return odd 1
+					$oddA = $matchData->team2price != 1?$calOdds[0]:2; // if no bet return odd 1
+					$oddB = $matchData->team1price != 1?$calOdds[1]:2; // if no bet return odd 1
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['oddA'] = $oddA;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['oddB'] = $oddB;
 
