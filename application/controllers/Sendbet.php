@@ -56,6 +56,19 @@ class sendbet extends CI_Controller
 			if($this->db->insert('userbet', $putdata))
 			{
 				$checkError[] = true;
+				$teaminloopPrice = "team{$info[$key]['team']}price";
+				$teaminloopPeople = "team{$info[$key]['team']}people";
+				$this->db->set($teaminloopPrice, "{$teaminloopPrice}+{$value}", FALSE);
+				$this->db->set($teaminloopPeople, "{$teaminloopPeople}+1", FALSE);
+				$this->db->where('match_id', $info[$key]['matchid']);
+				if($this->db->update('matchgame'))
+				{
+					$checkError[] = true;
+				}
+				else 
+				{
+					$checkError[] = false;
+				}
 			}
 			else 
 			{
