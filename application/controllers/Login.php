@@ -7,6 +7,10 @@ class login extends CI_Controller{
 	   	parent::__construct();
 	    //Codeigniter : Write Less Do More
 	}
+	public function jwttoken()
+	{
+		$this->jwtservice->getToken();
+	}
 	public function memberLogin()
 	{
 		$data = json_decode(file_get_contents('php://input'),true);
@@ -24,9 +28,9 @@ class login extends CI_Controller{
 				{
 					$this->db->where('member_code', $row->member_code);
 					if($this->db->update('member',array('member_ip'=>$this->ipuser->real_ip())))
-					{				
+					{	
 						echo json_encode(array('statusLogin'=>true,'memberCode'=>$row->member_code,'email'=>$row->member_email,
-						'price'=>$row->member_price));
+						'price'=>$row->member_price,'token'=>$this->jwtservice->setToken($row->member_code)));
 					}
 					else 
 					{
