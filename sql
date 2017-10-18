@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2017 at 02:07 AM
+-- Generation Time: Oct 18, 2017 at 03:08 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -68,15 +68,6 @@ CREATE TABLE `matchgame` (
   `statusgame` int(11) NOT NULL DEFAULT '0' COMMENT 'สถานะการแข่ง 0 เท่ากับยังไม่เริ่ม 1 เท่ากับแข่งไปแล้ว'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `matchgame`
---
-
-INSERT INTO `matchgame` (`match_id`, `team_1`, `team_2`, `team1pic`, `team2pic`, `day`, `month`, `year`, `time`, `team1people`, `team2people`, `team1price`, `team2price`, `winner`, `daycreate`, `cat_id`, `cat_name`, `statusgame`) VALUES
-(25, 'Evil Geniuses', 'Newbee', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 'https://www.esportsearnings.com/images/logos/tm210-newbee-5563.png', 13, 10, 2017, '13:55', 0, 0, 1, 1, NULL, '2017-10-12 18:49:40', '20', 'marvel', 0),
-(26, 'Natus Vincere', 'Wings Gaming', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', 14, 10, 2017, '13:55', 0, 0, 1, 1, NULL, '2017-10-12 18:49:58', '19', 'CS:GO', 0),
-(27, 'Natus Vincere', 'Evil Geniuses', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 16, 10, 2017, '18:33', 0, 0, 50, 180, NULL, '2017-10-12 18:50:23', '19', 'CS:GO', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -92,6 +83,14 @@ CREATE TABLE `member` (
   `member_ip` text COLLATE utf8_unicode_ci,
   `member_price` int(11) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `member`
+--
+
+INSERT INTO `member` (`member_id`, `member_email`, `member_pass`, `member_code`, `member_date`, `member_ip`, `member_price`) VALUES
+(1, 'chareef@gmail.com', '$2y$10$fdP8Z9fr8hx1hTNo6a/jWeBOfiDTgkL4Myul.5v/CJcJ.U1o3U1nC', 1510171538, '2017-10-14 22:46:15', '::1', 2947),
+(2, 'test@gmail.com', '$2y$10$aK2yK.dKuph6HSEDNnKJ3.Jc9h3wuQbH/dj3IqTQSq.pssLUOYM4K', 2147483647, '2017-10-18 00:59:03', '::1', 3000);
 
 -- --------------------------------------------------------
 
@@ -132,7 +131,8 @@ CREATE TABLE `userbet` (
   `userbet_price` int(10) NOT NULL,
   `userbet_usercode` int(20) NOT NULL,
   `userbet_team` int(1) NOT NULL,
-  `userbet_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `userbet_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userbet_error` text COLLATE utf8_unicode_ci COMMENT 'จะใส่ข้อผิดพลาดเมื่อลบไม่ได้หรือคืนตังไม่ได้'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -207,7 +207,7 @@ ALTER TABLE `matchgame`
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `storeteam`
 --
@@ -217,7 +217,7 @@ ALTER TABLE `storeteam`
 -- AUTO_INCREMENT for table `userbet`
 --
 ALTER TABLE `userbet`
-  MODIFY `userbet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
+  MODIFY `userbet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT for table `walletcode`
 --
