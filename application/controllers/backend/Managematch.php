@@ -56,7 +56,14 @@ class managematch extends CI_Controller{
 		{
 		        $catName = $row->cat_name;
 		}
-
+		if($this->input->post('winner') != 0)
+		{
+			$winner = $this->input->post('winner');
+		}
+		else 
+		{
+			$winner = null;
+		}
 		$data = array(
 	        'team_1' => $this->input->post('team1'),
 	        'team_2' => $this->input->post('team2'),
@@ -67,6 +74,7 @@ class managematch extends CI_Controller{
 	        'month' => $this->input->post('month'),
 	        'year' => $this->input->post('year'),
 	        'time' => $this->input->post('time'),
+	        'winner' => $winner,
 
 
 		);
@@ -105,6 +113,7 @@ class managematch extends CI_Controller{
 		       $matchDetail['sumpeople'] = $row->team1people+$row->team2people;
 		       $matchDetail['price1'] = $row->team1price;
 		       $matchDetail['price2'] = $row->team2price;
+		       $matchDetail['winner'] = $row->winner;
 		       if($row->team1price == 1 && $row->team2price ==1)
 		       {
 		       	$matchDetail['sumprice'] = 0;
