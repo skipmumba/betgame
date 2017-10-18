@@ -27,13 +27,13 @@ class jwtservice extends CI_Model
 	public function getToken()
 	{
 		$headers = apache_request_headers();
-		if($headers['Authorization'])
+		if($headers['Authorization'] != '')
 		{
 			$decoded = JWT::decode($headers['Authorization'],$this->keys, array('HS256'));
 			if($decoded)
 			{
-				$expireTime = intval($decoded->create)+10;
-				if($timeNow = time('Asia/Bangkok') < $expireTime) //i dont use the expire token because it is a trick for prevent hackers
+				$expireTime = intval($decoded->create)+3600;
+				if($timeNow = time('Asia/Bangkok') > $expireTime) //i dont use the expire token because it is a trick for prevent hackers
 				{
 					// echo 'expire Now';
 					return false;
@@ -47,22 +47,13 @@ class jwtservice extends CI_Model
 			}
 			else 
 			{
-				echo 'wrong';
+				return false;
 			}
 		}
 		else 
 		{
-			echo 'no Authorization';
+			return false;
 		}
-		// print_r($headers['Authorization']);
-		// $aa=$headers['Authorization'];
-		// if($aa)
-		// {
-		// 	print_r($decoded);
-		// }
-		// $s = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImNoYXJlZWYiLCJhZG1pbiI6dHJ1ZX0.gJjlmHel4UhPFO4v42dXKUP-KkCN6P8ymoBr1cAyuGc';
-		// $decoded = JWT::decode($aa,'secrets', array('HS256'));
-		// print_r($decoded);
 		
 	}
 }

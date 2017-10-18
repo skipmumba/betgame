@@ -10,11 +10,45 @@ class managematch extends CI_Controller{
 
 	public function del_match($id)
 	{
-		$this->db->where('match_id', $id);
-  		$this->db->delete('matchgame');
+		$arraybet = 0;
+		$userbet = array();
+		$betid = array();
+		$people = 0;
+		$refund = 0;
+		$query = $this->db->get_where('userbet', array('userbet_matchid' => $id));
+		foreach ($query->result() as $row)
+		{
+			   $betid[] = $row->userbet_id;
+		        $userbet[$arraybet]['price'] = $row->userbet_price;
+		        $userbet[$arraybet]['team'] = $row->userbet_team;
+		        $userbet[$arraybet]['matchid'] = $row->userbet_matchid;
+		        $userbet[$arraybet]['usercode'] = $row->userbet_usercode;
+		        $userbet[$arraybet]['betid'] = $row->userbet_id;
+		        $arraybet ++;
+		}
+
+		foreach($userbet as $key => $value)
+		{
+			$people+=1;
+			$refund+=$value['price'];
+			$this->db->set('member_price', "member_price+{$value['price']}", FALSE);
+			$this->db->where('member_code', $value['usercode']);
+			if(!$this->db->update('member')) //if cannot refund money
+			{
+				$goterror = array(
+				        'userbet_error' => 'got error',
+				);
+				$this->db->update('userbet', $goterror, array('userbet_id' => $value['betid'])); //isert got error in bet id
+			}
+			else 
+			{
+				$this->db->delete('userbet', array('userbet_id' => $value['betid']));
+			}
+		}
+
+		$this->db->delete('matchgame', array('match_id' => $id));
   		redirect($this->config->item('hostng'), 'refresh');
 	}
-
 	public function update_match()
 	{
 		$query = $this->db->get_where('catgame', array('cat_id' => $this->input->post('catID')));

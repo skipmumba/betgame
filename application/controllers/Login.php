@@ -7,10 +7,6 @@ class login extends CI_Controller{
 	   	parent::__construct();
 	    //Codeigniter : Write Less Do More
 	}
-	public function jwttoken()
-	{
-		$this->jwtservice->getToken();
-	}
 	public function memberLogin()
 	{
 		$data = json_decode(file_get_contents('php://input'),true);
