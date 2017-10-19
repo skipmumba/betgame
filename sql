@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2017 at 03:08 AM
+-- Generation Time: Oct 19, 2017 at 04:09 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -68,6 +68,14 @@ CREATE TABLE `matchgame` (
   `statusgame` int(11) NOT NULL DEFAULT '0' COMMENT 'สถานะการแข่ง 0 เท่ากับยังไม่เริ่ม 1 เท่ากับแข่งไปแล้ว'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `matchgame`
+--
+
+INSERT INTO `matchgame` (`match_id`, `team_1`, `team_2`, `team1pic`, `team2pic`, `day`, `month`, `year`, `time`, `team1people`, `team2people`, `team1price`, `team2price`, `winner`, `daycreate`, `cat_id`, `cat_name`, `statusgame`) VALUES
+(1, 'Evil Geniuses', 'Wings Gaming', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', 19, 10, 2017, '13:15', 1, 2, 321, 301, NULL, '2017-10-18 20:39:17', '19', 'CS:GO', 0),
+(2, 'Natus Vincere', 'Virtus.pro', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm185-virtus-pro1781.png', 21, 10, 2017, '18:55', 1, 1, 201, 351, NULL, '2017-10-18 20:39:38', '19', 'CS:GO', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -89,8 +97,20 @@ CREATE TABLE `member` (
 --
 
 INSERT INTO `member` (`member_id`, `member_email`, `member_pass`, `member_code`, `member_date`, `member_ip`, `member_price`) VALUES
-(1, 'chareef@gmail.com', '$2y$10$fdP8Z9fr8hx1hTNo6a/jWeBOfiDTgkL4Myul.5v/CJcJ.U1o3U1nC', 1510171538, '2017-10-14 22:46:15', '::1', 2947),
-(2, 'test@gmail.com', '$2y$10$aK2yK.dKuph6HSEDNnKJ3.Jc9h3wuQbH/dj3IqTQSq.pssLUOYM4K', 2147483647, '2017-10-18 00:59:03', '::1', 3000);
+(1, 'chareef@gmail.com', '$2y$10$fdP8Z9fr8hx1hTNo6a/jWeBOfiDTgkL4Myul.5v/CJcJ.U1o3U1nC', 1510171538, '2017-10-14 22:46:15', '::1', 4230),
+(2, 'test@gmail.com', '$2y$10$aK2yK.dKuph6HSEDNnKJ3.Jc9h3wuQbH/dj3IqTQSq.pssLUOYM4K', 2147483647, '2017-10-18 00:59:03', '::1', 2600);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting`
+--
+
+CREATE TABLE `setting` (
+  `setting_id` int(10) NOT NULL,
+  `setting_phone` int(10) NOT NULL,
+  `setting_usercode` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -135,6 +155,17 @@ CREATE TABLE `userbet` (
   `userbet_error` text COLLATE utf8_unicode_ci COMMENT 'จะใส่ข้อผิดพลาดเมื่อลบไม่ได้หรือคืนตังไม่ได้'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `userbet`
+--
+
+INSERT INTO `userbet` (`userbet_id`, `userbet_matchid`, `userbet_price`, `userbet_usercode`, `userbet_team`, `userbet_time`, `userbet_error`) VALUES
+(1, 1, 100, 1510171538, 2, '2017-10-18 20:43:22', NULL),
+(2, 1, 320, 1510171538, 1, '2017-10-18 20:43:37', NULL),
+(3, 2, 350, 1510171538, 2, '2017-10-18 20:44:00', NULL),
+(4, 2, 200, 2147483647, 1, '2017-10-18 20:44:22', NULL),
+(5, 1, 200, 2147483647, 2, '2017-10-18 20:44:41', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -146,8 +177,59 @@ CREATE TABLE `walletcode` (
   `wallet_phone` text COLLATE utf8_unicode_ci NOT NULL,
   `wallet_usercode` text COLLATE utf8_unicode_ci NOT NULL,
   `wallet_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `wallet_code` text COLLATE utf8_unicode_ci NOT NULL
+  `wallet_code` text COLLATE utf8_unicode_ci NOT NULL,
+  `wallet_price` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `walletcode`
+--
+
+INSERT INTO `walletcode` (`wallet_id`, `wallet_phone`, `wallet_usercode`, `wallet_date`, `wallet_code`, `wallet_price`) VALUES
+(4, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(5, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '380'),
+(6, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '780'),
+(7, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '250'),
+(8, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(9, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '2500'),
+(10, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(11, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(12, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(13, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(14, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(15, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(16, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(17, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(18, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200'),
+(19, '06212123', '1510171538', '2017-10-18 23:34:39', '603523132', '200');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `withdraw`
+--
+
+CREATE TABLE `withdraw` (
+  `withdraw_id` int(10) NOT NULL,
+  `withdraw_usercode` int(20) NOT NULL,
+  `withdraw_price` int(20) NOT NULL,
+  `withdraw_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `withdraw_status` int(11) NOT NULL DEFAULT '0' COMMENT '0 = ยัง 1 = โอนแล้ว'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `withdraw`
+--
+
+INSERT INTO `withdraw` (`withdraw_id`, `withdraw_usercode`, `withdraw_price`, `withdraw_time`, `withdraw_status`) VALUES
+(1, 1510171538, 900, '2017-10-19 00:38:54', 1),
+(2, 1510171538, 200, '2017-10-19 00:38:54', 0),
+(3, 1510171538, 300, '2017-10-19 00:38:54', 0),
+(4, 1510171538, 250, '2017-10-19 00:38:54', 0),
+(5, 1510171538, 200, '2017-10-19 00:38:54', 0),
+(6, 1510171538, 180, '2017-10-19 00:38:54', 0),
+(7, 1510171538, 200, '2017-10-19 00:38:54', 0),
+(8, 1510171538, 2000, '2017-10-19 00:38:54', 0);
 
 --
 -- Indexes for dumped tables
@@ -172,6 +254,12 @@ ALTER TABLE `member`
   ADD PRIMARY KEY (`member_id`);
 
 --
+-- Indexes for table `setting`
+--
+ALTER TABLE `setting`
+  ADD PRIMARY KEY (`setting_id`);
+
+--
 -- Indexes for table `storeteam`
 --
 ALTER TABLE `storeteam`
@@ -190,6 +278,12 @@ ALTER TABLE `walletcode`
   ADD PRIMARY KEY (`wallet_id`);
 
 --
+-- Indexes for table `withdraw`
+--
+ALTER TABLE `withdraw`
+  ADD PRIMARY KEY (`withdraw_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -202,12 +296,17 @@ ALTER TABLE `catgame`
 -- AUTO_INCREMENT for table `matchgame`
 --
 ALTER TABLE `matchgame`
-  MODIFY `match_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `match_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
   MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `setting`
+--
+ALTER TABLE `setting`
+  MODIFY `setting_id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `storeteam`
 --
@@ -217,12 +316,17 @@ ALTER TABLE `storeteam`
 -- AUTO_INCREMENT for table `userbet`
 --
 ALTER TABLE `userbet`
-  MODIFY `userbet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `userbet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `walletcode`
 --
 ALTER TABLE `walletcode`
-  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `withdraw`
+--
+ALTER TABLE `withdraw`
+  MODIFY `withdraw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

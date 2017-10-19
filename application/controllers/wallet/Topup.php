@@ -56,6 +56,7 @@ class topup extends CI_Controller
 								        'wallet_phone' => $phone,
 								        'wallet_usercode' => $codeUser,
 								        'wallet_code' => $referOrigin,
+								        'wallet_price' => $getPrice,
 								);
 								if($this->db->insert('walletcode', $data))
 								{
