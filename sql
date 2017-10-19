@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2017 at 09:16 PM
+-- Generation Time: Oct 19, 2017 at 10:54 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -74,7 +74,7 @@ CREATE TABLE `matchgame` (
 
 INSERT INTO `matchgame` (`match_id`, `team_1`, `team_2`, `team1pic`, `team2pic`, `day`, `month`, `year`, `time`, `team1people`, `team2people`, `team1price`, `team2price`, `winner`, `daycreate`, `cat_id`, `cat_name`, `statusgame`) VALUES
 (1, 'Evil Geniuses', 'Wings Gaming', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', 19, 10, 2017, '13:15', 1, 2, 321, 301, NULL, '2017-10-18 20:39:17', '19', 'CS:GO', 0),
-(2, 'Natus Vincere', 'Virtus.pro', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm185-virtus-pro1781.png', 21, 10, 2017, '18:55', 2, 2, 2657, 551, NULL, '2017-10-18 20:39:38', '19', 'CS:GO', 0);
+(2, 'Natus Vincere', 'Virtus.pro', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm185-virtus-pro1781.png', 21, 10, 2017, '1:55', 2, 2, 2657, 551, NULL, '2017-10-18 20:39:38', '19', 'CS:GO', 0);
 
 -- --------------------------------------------------------
 

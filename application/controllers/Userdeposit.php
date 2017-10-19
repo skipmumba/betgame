@@ -4,11 +4,11 @@ class userdeposit extends CI_Controller
 	public function __construct()
  	{
  		parent::__construct();
- 		if(!$this->jwtservice->getToken())
-		{
-			echo json_encode(array('jwt'=>'notoken'));
-			exit;
-		}
+ 	// 	if(!$this->jwtservice->getToken())
+		// {
+		// 	echo json_encode(array('jwt'=>'notoken'));
+		// 	exit;
+		// }
  	}
  	public function listDeposit($id,$start)
  	{
@@ -54,22 +54,18 @@ class userdeposit extends CI_Controller
  				echo json_encode(array('status'=>'cant'));
  			}
  		}
-
- 	// 	if($query->num_rows() == 0)
- 	// 	{
- 	// 		$data = array(
-		// 		        'setting_phone' => $phone,
-		// 		        'setting_usercode' => $id,
-		// 	);
-
-		// 	if($this->db->insert('setting', $data))
-		// 	{
-		// 		echo json_encode(array('status'=>'ok'));
-		// 	}
- 	// 	}
- 	// 	else 
-		// {
-		// 	echo json_encode(array('status'=>'no'));
-		// }
  	}
+
+ 	public function listbet($id)
+ 	{
+ 		$this->db->select('*');
+		$this->db->from('userbet');
+		$this->db->join('matchgame', 'matchgame.match_id = userbet.userbet_matchid');
+		$this->db->where('userbet_usercode','1910174791');
+		$query = $this->db->get();
+		echo '<pre>';
+		print_r($query->result());
+ 	}
+
+
  }

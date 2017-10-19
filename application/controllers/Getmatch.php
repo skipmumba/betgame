@@ -62,37 +62,19 @@ class getmatch extends CI_Controller
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['price2'] = $matchData->team2price;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['winner'] = $matchData->winner;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['time'] = $matchData->time;
-
-					if($matchData->statusgame == 0)
-					{
-						$matchArray[$indexArray]['matchDetail'][$matchIn]['statusgame'] = $this->statusGame($matchData->day,
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['statusgame'] = $this->game->statusGame($matchData->statusgame,$matchData->day,
 							$matchData->month,$matchData->year,$matchData->time);
-					}
-					else 
-					{
-						$matchArray[$indexArray]['matchDetail'][$matchIn]['statusgame'] = 'แข่งจบแล้ว';
-					}
+					
 
-					$calpercent = $this->findPercent($matchData->team1price,$matchData->team2price);
+					
 					$plusSum = $matchData->team1price+$matchData->team2price;
-					if($matchData->team1price == 1 && $matchData->team2price == 1)
-					{
-						
-						$percentA = 0;
-						$percentB = 0;	
-					}
-					else 
-					{
-						$percentA = $calpercent[0];
-						$percentB = $calpercent[1];					
-					}
-					$matchArray[$indexArray]['matchDetail'][$matchIn]['percentA'] = $percentA;
-					$matchArray[$indexArray]['matchDetail'][$matchIn]['percentB'] = $percentB;
-					$calOdds=$this->findOdds($percentA,$percentB);
-					$oddA = $matchData->team2price != 1?$calOdds[0]:2; // if no bet return odd 1
-					$oddB = $matchData->team1price != 1?$calOdds[1]:2; // if no bet return odd 1
-					$matchArray[$indexArray]['matchDetail'][$matchIn]['oddA'] = $oddA;
-					$matchArray[$indexArray]['matchDetail'][$matchIn]['oddB'] = $oddB;
+					
+					$percentAndOdd = $this->game->oddAndpercent($matchData->team1price,$matchData->team2price);//find percents and odds
+
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['percentA'] = $percentAndOdd['percentA'];
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['percentB'] = $percentAndOdd['percentB'];
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['oddA'] =  $percentAndOdd['oddA'];
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['oddB'] =  $percentAndOdd['oddB'];
 
 				}
 				$matchIn++;
@@ -105,123 +87,6 @@ class getmatch extends CI_Controller
 		// echo '<pre>';
 		echo json_encode($matchArray);
 		// print_r($matchArray);
-	}
-
-	function statusGame($d,$m,$y,$time='00:00',$status=0)
-	{
-		$checkMatch = false;
-		$timeNow = $this->getDate();
-		if($y == $timeNow['year'])
-		{
-			if($m == $timeNow['month'])
-			{
-				if($d == $timeNow['day'])
-				{
-					$checkMatch = true;
-				}
-			}
-		}		
-		if($checkMatch)
-		{	
-			if($timeNow['minute'] < 10)
-			{
-				$timeNow['minute'] = '0'.$timeNow['minute'];
-			}
-			$hourMin =  explode(':', $time);
-			$hourMinNow = $timeNow['hour'].$timeNow['minute'];
-			$hourInput = $hourMin[0].$hourMin[1];			
-				if($hourMinNow >= $hourInput)
-				{
-
-					return 'แข่งแล้ว';
-				}
-				else 
-				{
-					return 'ยังไม่แข่ง';
-				}
-		}
-		else 
-		{
-			if($timeNow['month'] == $m)
-			{
-				if($timeNow['day'] > $d)
-				{
-					return 'แข่งแล้ว';
-				}
-				else 
-				{
-					return 'ยังไม่แข่ง';
-				}
-			}
-			else 
-			{
-				if($timeNow['month'] > $m)
-				{
-					return 'แข่งแล้ว';
-				}
-				else 
-				{
-					return 'ยังไม่แข่ง';
-				}
-			}
-		}
-	}
-
-	public function findPercent($team1,$team2)
-	{
-		//assume
-		// Team A = 5,284/11,333 = 0.466*100 = 46.6% round(47%)	
-		// Team B = 6,049/11,333 = 0.533*100 = 53.3% round(53%)
-		// Team A 47% Team B 53%	
-
-		$sum = $team1+$team2;
-		$percentA = round(($team1/$sum)*100);
-		$percentB = round(($team2/$sum)*100);
-		return array($percentA,$percentB);
-	}
-
-	public function findOdds($percentA,$percentB)
-	{
-		// assume
-		// percent A 47
-		// percent B 53
-		// Team A = 53/47 1.12 floor(1.10) +1 = 2.10 = x2.10
-		// Team B = 47/53 0.88 floor(0.80) +1 = 1.80 = x1.80
-		if($percentA != 0)
-		{
-			$oddA =  $this->floorp(($percentB/$percentA)+1,2);
-			if($oddA > 91)
-			{
-				$oddA = 92;
-			}
-		
-
-		}
-		else 
-		{
-			$oddA = 92;
-		}
-		if($percentB != 0)
-		{
-			$oddB =  $this->floorp(($percentA/$percentB)+1,2);
-			if($oddB > 91)
-			{
-				$oddB = 92;
-			}
-	
-		}
-		else 
-		{
-			$oddB = 92;
-		}
-				
-		return array($oddA,$oddB);	
-	}
-
-	function floorp($val, $precision)
-	{
-	    $mult = pow(10, $precision);
-	    return floor($val * $mult) / $mult;
 	}
 
 
