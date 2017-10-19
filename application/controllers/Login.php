@@ -12,10 +12,14 @@ class login extends CI_Controller{
 		$data = json_decode(file_get_contents('php://input'),true);
 		$email = $data['email'];
 		$pass = $data['pass'];
+		$this->db->select('*');
 		$this->db->from('member');
+		$this->db->join('setting', 'setting.setting_usercode = member.member_code');
 		$this->db->where('member_email',$email);
 		$query = $this->db->get();
 		$count = $query->num_rows();
+
+		
 		if($count > 0)
 		{
 			foreach ($query->result() as $row)
@@ -25,7 +29,7 @@ class login extends CI_Controller{
 					$this->db->where('member_code', $row->member_code);
 					if($this->db->update('member',array('member_ip'=>$this->ipuser->real_ip())))
 					{	
-						echo json_encode(array('statusLogin'=>true,'memberCode'=>$row->member_code,'email'=>$row->member_email,
+						echo json_encode(array('statusLogin'=>true,'memberCode'=>$row->member_code,'email'=>$row->member_email,'phone'=>$row->setting_phone,
 						'price'=>$row->member_price,'token'=>$this->jwtservice->setToken($row->member_code)));
 					}
 					else 

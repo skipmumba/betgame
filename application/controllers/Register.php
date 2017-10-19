@@ -103,7 +103,18 @@ class register extends CI_Controller{
 		$this->db->insert('member', $data);
 		if($this->db->affected_rows() > 0)
 		{
-		    return true;
+			$datas = array(
+	        		'setting_usercode' => $ranNow
+			);
+			$this->db->insert('setting', $datas);
+			if($this->db->affected_rows() > 0)
+			{
+		    	return true;
+			}
+			else 
+			{
+				return false;
+			}
 		}
 		else 
 		{
