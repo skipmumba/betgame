@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2017 at 10:54 PM
--- Server version: 10.1.19-MariaDB
--- PHP Version: 5.6.28
+-- Generation Time: Oct 20, 2017 at 01:17 PM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -61,20 +61,21 @@ CREATE TABLE `matchgame` (
   `team2people` int(11) DEFAULT '0' COMMENT 'จำนวนคน',
   `team1price` float DEFAULT '1' COMMENT 'จำนวนเงิน //default1',
   `team2price` float DEFAULT '1' COMMENT 'จำนวนเงิน //default 1',
-  `winner` text COLLATE utf8_unicode_ci COMMENT 'ผู้ชนะ',
   `daycreate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `cat_id` text COLLATE utf8_unicode_ci NOT NULL,
   `cat_name` text COLLATE utf8_unicode_ci NOT NULL,
-  `statusgame` int(11) NOT NULL DEFAULT '0' COMMENT 'สถานะการแข่ง 0 เท่ากับยังไม่เริ่ม 1 เท่ากับแข่งไปแล้ว'
+  `statusgame` int(11) NOT NULL DEFAULT '0' COMMENT 'สถานะการแข่ง 0 เท่ากับยังไม่เริ่ม 1 เท่ากับแข่งไปแล้ว',
+  `winner` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `matchgame`
 --
 
-INSERT INTO `matchgame` (`match_id`, `team_1`, `team_2`, `team1pic`, `team2pic`, `day`, `month`, `year`, `time`, `team1people`, `team2people`, `team1price`, `team2price`, `winner`, `daycreate`, `cat_id`, `cat_name`, `statusgame`) VALUES
-(1, 'Evil Geniuses', 'Wings Gaming', 'https://www.esportsearnings.com/images/logos/tm101-evil-geniuses-6650.png', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', 19, 10, 2017, '13:15', 1, 2, 321, 301, NULL, '2017-10-18 20:39:17', '19', 'CS:GO', 0),
-(2, 'Natus Vincere', 'Virtus.pro', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm185-virtus-pro1781.png', 21, 10, 2017, '1:55', 2, 2, 2657, 551, NULL, '2017-10-18 20:39:38', '19', 'CS:GO', 0);
+INSERT INTO `matchgame` (`match_id`, `team_1`, `team_2`, `team1pic`, `team2pic`, `day`, `month`, `year`, `time`, `team1people`, `team2people`, `team1price`, `team2price`, `daycreate`, `cat_id`, `cat_name`, `statusgame`, `winner`) VALUES
+(2, 'Natus Vincere', 'Virtus.pro', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm185-virtus-pro1781.png', 21, 10, 2017, '1:55', 2, 1, 446, 361, '2017-10-18 20:39:38', '19', 'CS:GO', 1, NULL),
+(3, 'Wings Gaming', 'Natus Vincere', 'https://www.esportsearnings.com/images/logos/tm507-wings-gaming-7431.png', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 21, 10, 2017, '21:30', 0, 0, 1, 1, '2017-10-20 00:15:30', '20', 'marvel', 0, NULL),
+(4, 'Natus Vincere', 'Newbee', 'https://www.esportsearnings.com/images/logos/tm163-natus-vincere-3644.png', 'https://www.esportsearnings.com/images/logos/tm210-newbee-5563.png', 22, 10, 2017, '10:25', 1, 1, 501, 321, '2017-10-20 00:16:08', '20', 'marvel', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,9 @@ CREATE TABLE `member` (
 --
 
 INSERT INTO `member` (`member_id`, `member_email`, `member_pass`, `member_code`, `member_date`, `member_ip`, `member_price`) VALUES
-(3, 'skipmumba@gmail.com', '$2y$10$ESictsts0Acjwa9T8uy42u2LEVccz66Fg7lE1dGG6tVGbAWKmo.XC', 1910174791, '2017-10-19 17:06:47', '::1', 2344);
+(4, 'chareef@gmail.com', '$2y$10$n8gebsunMnmxtSE/3bMksOBr2saWNiKKcqbuJvEiY.sMpy0rwq/lS', 2010174246, '2017-10-20 00:23:42', '::1', 140),
+(5, 'test@gmail.com', '$2y$10$AFEVKQ49lIut31EoZK3W7.Hg5cWw1cy9qFLg0MgwXEmwP..rFX8Vy', 2010175358, '2017-10-20 00:24:53', '::1', 2175),
+(6, 'test2@gmail.com', '$2y$10$8zM7Jb89qf2bfj1bO4lUHungQttiDeYqtjofJa73o08Bj0SHjTVdu', 201017066, '2017-10-20 00:25:06', '::1', 2760);
 
 -- --------------------------------------------------------
 
@@ -116,7 +119,9 @@ CREATE TABLE `setting` (
 --
 
 INSERT INTO `setting` (`setting_id`, `setting_phone`, `setting_usercode`) VALUES
-(3, '0612158135', 1910174791);
+(4, NULL, 2010174246),
+(5, NULL, 2010175358),
+(6, NULL, 201017066);
 
 -- --------------------------------------------------------
 
@@ -166,8 +171,11 @@ CREATE TABLE `userbet` (
 --
 
 INSERT INTO `userbet` (`userbet_id`, `userbet_matchid`, `userbet_price`, `userbet_usercode`, `userbet_team`, `userbet_time`, `userbet_error`) VALUES
-(1, 2, 200, 1910174791, 2, '2017-10-19 18:51:13', NULL),
-(2, 2, 2456, 1910174791, 1, '2017-10-19 18:51:27', NULL);
+(3, 2, 120, 201017066, 1, '2017-10-20 00:26:12', NULL),
+(4, 4, 320, 201017066, 2, '2017-10-20 00:26:12', NULL),
+(5, 4, 500, 2010174246, 1, '2017-10-20 00:29:08', NULL),
+(6, 2, 360, 2010174246, 2, '2017-10-20 00:29:22', NULL),
+(7, 2, 325, 2010175358, 1, '2017-10-20 00:31:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -184,14 +192,6 @@ CREATE TABLE `walletcode` (
   `wallet_price` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `walletcode`
---
-
-INSERT INTO `walletcode` (`wallet_id`, `wallet_phone`, `wallet_usercode`, `wallet_date`, `wallet_code`, `wallet_price`) VALUES
-(20, '0612158135', '1910174791', '2017-10-19 17:58:37', '512345213213', '300'),
-(21, '0612158135', '1910174791', '2017-10-19 17:58:37', '512345213213', '500');
-
 -- --------------------------------------------------------
 
 --
@@ -205,13 +205,6 @@ CREATE TABLE `withdraw` (
   `withdraw_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `withdraw_status` int(11) NOT NULL DEFAULT '0' COMMENT '0 = ยัง 1 = โอนแล้ว'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `withdraw`
---
-
-INSERT INTO `withdraw` (`withdraw_id`, `withdraw_usercode`, `withdraw_price`, `withdraw_time`, `withdraw_status`) VALUES
-(9, 1910174791, 500, '2017-10-19 18:01:41', 0);
 
 --
 -- Indexes for dumped tables
@@ -278,17 +271,17 @@ ALTER TABLE `catgame`
 -- AUTO_INCREMENT for table `matchgame`
 --
 ALTER TABLE `matchgame`
-  MODIFY `match_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `match_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `setting`
 --
 ALTER TABLE `setting`
-  MODIFY `setting_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `setting_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `storeteam`
 --
@@ -298,17 +291,17 @@ ALTER TABLE `storeteam`
 -- AUTO_INCREMENT for table `userbet`
 --
 ALTER TABLE `userbet`
-  MODIFY `userbet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `userbet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `walletcode`
 --
 ALTER TABLE `walletcode`
-  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `wallet_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `withdraw`
 --
 ALTER TABLE `withdraw`
-  MODIFY `withdraw_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `withdraw_id` int(10) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

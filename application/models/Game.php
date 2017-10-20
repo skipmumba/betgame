@@ -8,7 +8,7 @@ class game extends CI_Model {
 
 
 
- 	function statusGame($gamestatus,$d,$m,$y,$time='00:00',$status=0)
+ 	function statusGame($d,$m,$y,$time='00:00',$gamestatus=0)
 	{
 		if($gamestatus == 0)
 		{
@@ -76,9 +76,9 @@ class game extends CI_Model {
 			
 	}
 
-	public function oddAndpercent($price1,$price2)
+	public function oddAndpercent($price1,$price2,$admin = 0)
 	{
-		$calpercent = $this->findPercent($price1,$price2);
+		$calpercent = $this->findPercent($price1,$price2,$admin);
 		if($price1 == 1 && $price2 == 1)
 		{
 						
@@ -90,7 +90,7 @@ class game extends CI_Model {
 			$percentA = $calpercent[0];
 			$percentB = $calpercent[1];					
 		}
-		$calOdds=$this->findOdds($percentA,$percentB);
+		$calOdds=$this->findOdds($percentA,$percentB,$admin);
 		$oddA = $price2 != 1?$calOdds[0]:2; // if no bet return odd 1
 		$oddB = $price1 != 1?$calOdds[1]:2; // if no bet return odd 1
 		
@@ -103,7 +103,7 @@ class game extends CI_Model {
 
 	}
 
-	public function findPercent($team1,$team2)
+	public function findPercent($team1,$team2,$admin)
 	{
 		//assume
 		// Team A = 5,284/11,333 = 0.466*100 = 46.6% round(47%)	
@@ -116,7 +116,7 @@ class game extends CI_Model {
 		return array($percentA,$percentB);
 	}
 
-	public function findOdds($percentA,$percentB)
+	public function findOdds($percentA,$percentB,$admin)
 	{
 		// assume
 		// percent A 47
@@ -128,29 +128,33 @@ class game extends CI_Model {
 			$oddA =  $this->floorp(($percentB/$percentA)+1,2);
 			if($oddA > 91)
 			{
-				$oddA = 92;
+				$oddA = 20;
 			}
 		
 
 		}
 		else 
 		{
-			$oddA = 92;
+			$oddA = 20;
 		}
 		if($percentB != 0)
 		{
 			$oddB =  $this->floorp(($percentA/$percentB)+1,2);
 			if($oddB > 91)
 			{
-				$oddB = 92;
+				$oddB = 20;
 			}
 	
 		}
 		else 
 		{
-			$oddB = 92;
+			$oddB = 20;
 		}
-				
+		if($admin == 0)
+		{
+			$oddA -= 0.5;
+			$oddB -= 0.5;
+		}
 		return array($oddA,$oddB);	
 	}
 

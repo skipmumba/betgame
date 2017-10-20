@@ -59,10 +59,12 @@ class managematch extends CI_Controller{
 		if($this->input->post('winner') != 0)
 		{
 			$winner = $this->input->post('winner');
+			$statusgame = 1;
 		}
 		else 
 		{
 			$winner = null;
+			$statusgame = 0;
 		}
 		$data = array(
 	        'team_1' => $this->input->post('team1'),
@@ -75,20 +77,59 @@ class managematch extends CI_Controller{
 	        'year' => $this->input->post('year'),
 	        'time' => $this->input->post('time'),
 	        'winner' => $winner,
-
-
+	        'statusgame' => $statusgame,
 		);
 
 
 		$this->db->where('match_id', $this->input->post('matchId'));
 		if($this->db->update('matchgame', $data))
 		{
+			if(!is_null($winner))
+			{
+				$this->updateMoneyWin($this->input->post('matchId'),$winner);
+			}
 			redirect($this->config->item('hostng'), 'refresh');
 		}
 		else 
 		{
 			echo 'contact admin';
 		}
+	}
+
+	public function updateMoneyWin($matchid,$winner)
+	{
+		$this->db->select('*');
+		$this->db->from('userbet');
+		$this->db->join('matchgame', 'matchgame.match_id = userbet.userbet_matchid');
+		$this->db->where('userbet_matchid',$matchid);
+		$query = $this->db->get();
+		foreach($query->result() as $key => $value)
+		{
+			if($value->userbet_team == $winner)
+			{
+				$usercode = $value->userbet_usercode;
+				if($value->userbet_team == 1)
+				{
+					$newPrice  = $value->userbet_price * $this->game->oddAndpercent($value->team1price,$value->team2price)['oddA'];
+				}
+				else 
+				{
+					$newPrice = $value->userbet_price * $this->game->oddAndpercent($value->team1price,$value->team2price)['oddB'];
+				}
+				$this->db->set('member_price', "member_price+{$newPrice}", FALSE);
+				$this->db->where('member_code', $usercode);
+				if($this->db->update('member'))
+				{
+					$this->db->set('winner', $value->userbet_team, FALSE);
+					$this->db->where('match_id', $value->userbet_matchid);
+					if($this->db->update('matchgame'))
+					{
+						// redirect($this->config->item('hostng'), 'refresh');
+					}
+				}
+			}
+		}
+
 	}
 
 	public function handleMatch($id)
@@ -114,6 +155,7 @@ class managematch extends CI_Controller{
 		       $matchDetail['price1'] = $row->team1price;
 		       $matchDetail['price2'] = $row->team2price;
 		       $matchDetail['winner'] = $row->winner;
+		       $matchDetail['statusgame'] = $this->game->statusGame($row->day,$row->month,$row->year,$row->time,$row->statusgame);
 		       if($row->team1price == 1 && $row->team2price ==1)
 		       {
 		       	$matchDetail['sumprice'] = 0;
