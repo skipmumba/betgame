@@ -51,6 +51,52 @@ class addmatch extends CI_Controller{
 			}	 
 	}
 
+	public function searchMatch($types,$value)
+	{
+		$noerr = true;
+		if($types == 'fulldate')
+		{
+			$fulldate=explode('-',$value);
+			$ct = count(array_filter($fulldate));
+			if($ct == 3)
+			{			
+				$this->db->where('day', $fulldate[0]);
+				$this->db->where('month', $fulldate[1]);
+				$this->db->where('year', $fulldate[2]);			
+			}
+			else 
+			{
+				$noerr = false;
+				echo json_encode(array('no'=>'notfound'));
+			}
+		}
+		else if($types == 'team')
+		{
+			$this->db->like('team_1', $value);
+			$this->db->or_like('team_2',$value);		
+		}
+		else if($types == 'winner')
+		{
+			$this->db->where('winner is NOT NULL');
+		}
+		else 
+		{			
+			$this->db->like(array($types => $value));
+		}
+		if($noerr)
+		{			
+
+			$query = $this->db->get('matchgame');
+			if($query->num_rows() != 0)
+			{
+				echo json_encode($query->result());
+			}
+			else 
+			{
+				echo json_encode(array('no'=>'notfound'));
+			}
+		}
+	}
 	public function addgame()
 	{
 		if(!empty($_POST['nameTeam1']))
