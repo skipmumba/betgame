@@ -50,4 +50,8 @@ class getwallet extends CI_Controller
 		$query = $this->db->get();
 		echo json_encode($query->result());
 	}
+
+	
+
+
 }

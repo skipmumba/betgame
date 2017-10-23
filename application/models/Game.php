@@ -152,8 +152,8 @@ class game extends CI_Model {
 		}
 		if($admin == 0)
 		{
-			$oddA -= 0.5;
-			$oddB -= 0.5;
+			$oddA -= 0.3;
+			$oddB -= 0.3;
 		}
 		return array($oddA,$oddB);	
 	}
