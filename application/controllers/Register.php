@@ -92,8 +92,8 @@ class register extends CI_Controller{
 	public function insertMember($email,$pass)
 	{
 		$time = date('dmys');
-		$ran = rand(date('s'),rand(1,150));
-		$ranNow = $time.''.$ran;
+		$ran = rand(1,150);
+		$ranNow = time().''.$ran;
 		$data = array(
 	        'member_email' => $email,
 	        'member_pass' => password_hash($pass,PASSWORD_DEFAULT),
