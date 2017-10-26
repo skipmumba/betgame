@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once(APPPATH.'/vendor/autoload.php');
+use RandomLib\Factory;
 class register extends CI_Controller{
 	public function __construct()
 	{
@@ -91,20 +92,21 @@ class register extends CI_Controller{
 
 	public function insertMember($email,$pass)
 	{
-		$time = date('dmys');
-		$ran = rand(1,150);
-		$ranNow = time().''.$ran;
+		$factory = new RandomLib\Factory;
+		$generator = $factory->getGenerator(new SecurityLib\Strength(SecurityLib\Strength::MEDIUM));
+		$time = date('s');
+		$randomInt = $time.$generator->generateInt(1000, 9999);
 		$data = array(
 	        'member_email' => $email,
 	        'member_pass' => password_hash($pass,PASSWORD_DEFAULT),
-	        'member_code' => $ranNow,
+	        'member_code' => $randomInt,
 		);
 
 		$this->db->insert('member', $data);
 		if($this->db->affected_rows() > 0)
 		{
 			$datas = array(
-	        		'setting_usercode' => $ranNow
+	        		'setting_usercode' => $randomInt
 			);
 			$this->db->insert('setting', $datas);
 			if($this->db->affected_rows() > 0)
