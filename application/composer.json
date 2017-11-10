@@ -2,6 +2,7 @@
     "require": {
         "firebase/php-jwt": "^5.0",
         "nesbot/carbon": "^1.22",
-        "ircmaxell/random-lib": "^1.2"
+        "ircmaxell/random-lib": "^1.2",
+        "simplon/payment": "^0.5.8"
     }
 }

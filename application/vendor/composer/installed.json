@@ -334,5 +334,93 @@
             "random-numbers",
             "random-strings"
         ]
+    },
+    {
+        "name": "fightbulc/php_curl",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fightbulc/php_curl.git",
+            "reference": "bb35c3918e1e9e4015f6ec246d5589aafa7068ab"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fightbulc/php_curl/zipball/bb35c3918e1e9e4015f6ec246d5589aafa7068ab",
+            "reference": "bb35c3918e1e9e4015f6ec246d5589aafa7068ab",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2012-10-22T00:29:11+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "BauerUK",
+                "homepage": "https://github.com/BauerUK"
+            }
+        ],
+        "description": "PHP CURL as object-oriented implementation.",
+        "homepage": "https://github.com/fightbulc/php_curl"
+    },
+    {
+        "name": "simplon/payment",
+        "version": "0.5.8",
+        "version_normalized": "0.5.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fightbulc/simplon_payment.git",
+            "reference": "d8c824cffc4c509ac4c05ec592018b65abe268e6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fightbulc/simplon_payment/zipball/d8c824cffc4c509ac4c05ec592018b65abe268e6",
+            "reference": "d8c824cffc4c509ac4c05ec592018b65abe268e6",
+            "shasum": ""
+        },
+        "require": {
+            "fightbulc/php_curl": "1.0.0",
+            "php": ">=5.4"
+        },
+        "time": "2013-07-08T08:41:14+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Simplon\\Payment": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Tino Ehrich",
+                "email": "opensource@efides.com",
+                "role": "developer"
+            },
+            {
+                "name": "Giuseppe Maniscalco",
+                "email": "maniscalcogiuseppe82@gmail.com",
+                "role": "developer"
+            }
+        ],
+        "description": "Flexible solution to enable payments for multiple payment providers.",
+        "homepage": "https://github.com/fightbulc/simplon_payment",
+        "keywords": [
+            "payment"
+        ]
     }
 ]

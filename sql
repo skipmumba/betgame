@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2017 at 11:12 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
+-- Generation Time: Nov 10, 2017 at 02:03 PM
+-- Server version: 10.1.19-MariaDB
+-- PHP Version: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -73,8 +73,8 @@ CREATE TABLE `matchgame` (
 --
 
 INSERT INTO `matchgame` (`match_id`, `team_1`, `team_2`, `team1pic`, `team2pic`, `day`, `month`, `year`, `time`, `team1people`, `team2people`, `team1price`, `team2price`, `daycreate`, `cat_id`, `cat_name`, `statusgame`, `winner`) VALUES
-(4, 'OpTic Gaming', 'Team Liquid', 'https://www.esportsearnings.com/images/logos/tm231-optic-gaming-5983.png', 'https://www.esportsearnings.com/images/logos/tm102-team-liquid-9375.png', 26, 10, 2017, '18:55', 0, 0, 1, 1, '2017-10-24 23:12:36', '2', 'ROV', 0, NULL),
-(5, 'Team Liquid', 'OpTic Gaming', 'https://www.esportsearnings.com/images/logos/tm102-team-liquid-9375.png', 'https://www.esportsearnings.com/images/logos/tm231-optic-gaming-5983.png', 25, 10, 2017, '12:00', 0, 0, 1, 1, '2017-10-24 23:12:58', '1', 'CS:GO', 0, NULL);
+(4, 'OpTic Gaming', 'Team Liquid', 'https://www.esportsearnings.com/images/logos/tm231-optic-gaming-5983.png', 'https://www.esportsearnings.com/images/logos/tm102-team-liquid-9375.png', 5, 11, 2017, '18:01', 0, 0, 1, 1, '2017-10-24 23:12:36', '2', 'ROV', 0, NULL),
+(5, 'Team Liquid', 'OpTic Gaming', 'https://www.esportsearnings.com/images/logos/tm102-team-liquid-9375.png', 'https://www.esportsearnings.com/images/logos/tm231-optic-gaming-5983.png', 7, 11, 2017, '12:00', 0, 1, 1, 201, '2017-10-24 23:12:58', '1', 'CS:GO', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -92,6 +92,36 @@ CREATE TABLE `member` (
   `member_price` int(11) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `member`
+--
+
+INSERT INTO `member` (`member_id`, `member_email`, `member_pass`, `member_code`, `member_date`, `member_ip`, `member_price`) VALUES
+(1, 'chareef@gmail.com', '$2y$10$mxya9KGTpka7TY23Cy3k8.w9DWw0bAW2h3vtdrLKW0GHKNDbaSIka', '366914', '2017-10-26 21:39:37', '::1', 0),
+(2, 'hello@gmail.com', '$2y$10$Madpp501l8eIxTgGS0CChuzjoiXVEDDp0cia/s2/XWsYa/0oP9TYG', '449959', '2017-11-06 11:13:44', '::1', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news`
+--
+
+CREATE TABLE `news` (
+  `news_id` int(11) NOT NULL,
+  `news_subject` text COLLATE utf8_unicode_ci NOT NULL,
+  `news_textarea` text COLLATE utf8_unicode_ci NOT NULL,
+  `news_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `news`
+--
+
+INSERT INTO `news` (`news_id`, `news_subject`, `news_textarea`, `news_date`) VALUES
+(34, 'What is Lorem Ipsum? What is Lorem Ipsum? What is Lorem Ipsum? What is Lorem IWhat is Lorem Ipsum?What is Lorem Ipsum?What is Lorem Ipsum?What is Lorem Ipsum?What is Lorem Ipsum?What is Lorem Ipsum?psum?', '<p style="text-align: center;"><strong>Lorem Ipsum</strong></p><ol><li>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining <span style="color: rgb(235, 107, 86);">essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span></li></ol>', '2017-11-08 09:34:26'),
+(35, 'Why do we use it?', '<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>', '2017-11-08 09:34:54'),
+(36, 'Where can I get some?', '<p>There are many variations of passages <span style="color: rgb(147, 101, 184);">of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage </span></p><p><img src="https://i.froala.com/download/084e60acdc04c40e2d8321a18d48240c81bd96e9.jpg?1510133747" style="width: 300px;" class="fr-fic fr-dib"></p><p>of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>', '2017-11-08 09:35:58');
+
 -- --------------------------------------------------------
 
 --
@@ -103,6 +133,14 @@ CREATE TABLE `setting` (
   `setting_phone` text COLLATE utf8_unicode_ci,
   `setting_usercode` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `setting`
+--
+
+INSERT INTO `setting` (`setting_id`, `setting_phone`, `setting_usercode`) VALUES
+(1, NULL, 366914),
+(2, NULL, 449959);
 
 -- --------------------------------------------------------
 
@@ -140,6 +178,13 @@ CREATE TABLE `userbet` (
   `userbet_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `userbet_error` text COLLATE utf8_unicode_ci COMMENT 'จะใส่ข้อผิดพลาดเมื่อลบไม่ได้หรือคืนตังไม่ได้'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `userbet`
+--
+
+INSERT INTO `userbet` (`userbet_id`, `userbet_matchid`, `userbet_price`, `userbet_usercode`, `userbet_team`, `userbet_time`, `userbet_error`) VALUES
+(1, 5, 200, 366914, 2, '2017-11-06 11:33:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -193,6 +238,12 @@ ALTER TABLE `member`
   ADD PRIMARY KEY (`member_id`);
 
 --
+-- Indexes for table `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`news_id`);
+
+--
 -- Indexes for table `setting`
 --
 ALTER TABLE `setting`
@@ -240,12 +291,17 @@ ALTER TABLE `matchgame`
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `news`
+--
+ALTER TABLE `news`
+  MODIFY `news_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `setting`
 --
 ALTER TABLE `setting`
-  MODIFY `setting_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `setting_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `storeteam`
 --
@@ -255,7 +311,7 @@ ALTER TABLE `storeteam`
 -- AUTO_INCREMENT for table `userbet`
 --
 ALTER TABLE `userbet`
-  MODIFY `userbet_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `userbet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `walletcode`
 --
