@@ -11,19 +11,21 @@ class addmatch extends CI_Controller{
 
  	public function addcat()
 	{
-		if(isset($_POST['catname']))
+		$post = json_decode(file_get_contents('php://input'), true);
+
+		if(isset($post['name']))
 		{
-			if(isset($_POST['catimage']))
+			if(isset($post['img']))
 			{
 
 				$data = array(
-				        'cat_name' => $this->input->post('catname'),
-				        'cat_image' => $this->input->post('catimage'),
+				        'cat_name' =>$post['name'],
+				        'cat_image' => $post['img'],
 				);
 
 				if($this->db->insert('catgame', $data))
 				{
-					redirect($_POST['hostng'].'/addgame','refresh');
+					echo json_encode(array('status'=>'succ'));
 				}
 			}
 		}
@@ -47,7 +49,7 @@ class addmatch extends CI_Controller{
 		$this->db->delete('catgame', array('cat_id' => $id));
 		if($this->db->affected_rows())
 			{
-			 	 redirect($this->config->item('hostng'),'refresh');
+			 	 echo json_encode(array('status'=>'succ'));
 			}	 
 	}
 
