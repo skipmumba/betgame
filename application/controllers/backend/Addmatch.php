@@ -101,25 +101,25 @@ class addmatch extends CI_Controller{
 	}
 	public function addgame()
 	{
-		if(!empty($_POST['nameTeam1']))
+		$post = json_decode(file_get_contents('php://input'), true);
+		if(isset($post))
 		{
-			$explode_cat=explode('*-*',$this->input->post('catid'));
 			$data = array(
-			        'team_1' => $this->input->post('nameTeam1'),
-			        'team_2' => $this->input->post('nameTeam2'),
-			        'team1pic' => $this->input->post('picTeam1'),
-			        'team2pic' => $this->input->post('picTeam2'),
-			        'day' => $this->input->post('day'),
-			        'month' => $this->input->post('month'),
-			        'year' => $this->input->post('year'),
-			        'time' => $this->input->post('time'),
-			        'cat_id' => $explode_cat[0],
-			        'cat_name' => $explode_cat[1] ,
+			        'team_1' =>$post['team1'],
+			        'team_2' => $post['team2'],
+			        'team1pic' => $post['pic1'],
+			        'team2pic' =>$post['pic2'],
+			        'day' => $post['day'],
+			        'month' => $post['month'],
+			        'year' => $post['year'],
+			        'time' => $post['time'],
+			        'cat_id' => $post['catid'],
+			        'cat_name' => $post['catname'],
 			);
 
 			if($this->db->insert('matchGame', $data))
 			{
-				redirect($this->config->item('hostng').'/addgame','refresh');
+				echo json_encode(array('status'=>'succ'));
 			}
 		}
 	}
