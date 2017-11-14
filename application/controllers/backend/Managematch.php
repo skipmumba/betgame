@@ -47,52 +47,63 @@ class managematch extends CI_Controller{
 		}
 
 		$this->db->delete('matchgame', array('match_id' => $id));
-  		redirect($this->config->item('hostng'), 'refresh');
+  		echo json_encode(array('status'=>'succ'));
 	}
 	public function update_match()
 	{
-		$query = $this->db->get_where('catgame', array('cat_id' => $this->input->post('catID')));
-		foreach ($query->result() as $row)
+		$post = json_decode(file_get_contents('php://input'), true);
+		if(isset($post))
 		{
-		        $catName = $row->cat_name;
-		}
-		if($this->input->post('winner') != 0)
-		{
-			$winner = $this->input->post('winner');
-			$statusgame = 1;
-		}
-		else 
-		{
-			$winner = null;
-			$statusgame = 0;
-		}
-		$data = array(
-	        'team_1' => $this->input->post('team1'),
-	        'team_2' => $this->input->post('team2'),
-	        'team1pic' => $this->input->post('picTeam1'),
-	        'cat_id' => $this->input->post('catID'),
-	        'cat_name' => $catName,
-	        'day' => $this->input->post('day'),
-	        'month' => $this->input->post('month'),
-	        'year' => $this->input->post('year'),
-	        'time' => $this->input->post('time'),
-	        'winner' => $winner,
-	        'statusgame' => $statusgame,
-		);
 
-
-		$this->db->where('match_id', $this->input->post('matchId'));
-		if($this->db->update('matchgame', $data))
-		{
-			if(!is_null($winner))
+			$query = $this->db->get_where('catgame', array('cat_id' => $post['catid']));
+			foreach ($query->result() as $row)
 			{
-				$this->updateMoneyWin($this->input->post('matchId'),$winner);
+			        $catName = $row->cat_name;
 			}
-			redirect($this->config->item('hostng'), 'refresh');
-		}
-		else 
-		{
-			echo 'contact admin';
+			if(!isset($post['winner']))
+			{
+				$post['winner'] = 0;
+			}
+			if($post['winner'] != 0)
+			{
+				$winner = $post['winner'];
+				$statusgame = 1;
+			}
+			else 
+			{
+				$winner = null;
+				$statusgame = 0;
+			}
+			$data = array(
+		        'team_1' => $post['team1'],
+		        'team_2' => $post['team2'],
+		        'team1pic' => $post['pic1'],
+		        'team2pic' => $post['pic2'],
+		        'cat_id' => $post['catid'],
+		        'cat_name' => $catName,
+		        'day' => $post['day'],
+		        'month' => $post['month'],
+		        'year' => $post['year'],
+		        'time' => $post['time'],
+		        'winner' => $winner,
+		        'statusgame' => $statusgame,
+			);
+
+
+			$this->db->where('match_id', $post['matchid']);
+			if($this->db->update('matchgame', $data))
+			{
+				if(!is_null($winner))
+				{
+					$this->updateMoneyWin($post['matchid'],$winner);
+				}
+				echo json_encode(array('status'=>'ok'));
+			}
+			else 
+			{
+				echo 'contact admin';
+			}
+
 		}
 	}
 

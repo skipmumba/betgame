@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 include_once('manager/TrueWallet.php');
 class topup extends CI_Controller 
 {
-	public function checktop($phoneNumber,$topup,$codeUser)
+	public function checktop($referphone,$phoneNumber,$topup,$codeUser)
 	{
 			if(!is_numeric($codeUser))
 			{
@@ -21,11 +21,20 @@ class topup extends CI_Controller
 			$walletRefer = $topup;
 			if(ctype_digit($phone))
 			{
-			
-
+				 $referphone = substr($referphone, 1);
+				$querypass = $this->db->get_where('topup', array('phone' => $referphone));
+				if($querypass->num_rows() > 0)
+				{
+					$username = $querypass->result()[0]->user;
+					$password = $querypass->result()[0]->pass;
+				}
+				else 
+				{
+					echo json_encode(array('status'=>'not found'));
+					exit;
+				}
+				
 				$wallet = new TrueWallet();
-				$username = "skipmumba2@gmail.com";
-				$password = "reefaut53";
 				$wallet->logout();
 				if($wallet->login($username,$password))
 				{
@@ -84,10 +93,14 @@ class topup extends CI_Controller
 						}
 						else
 						{
-							echo json_encode(array('status'=>'error'));
+							echo json_encode(array('status'=>'errorssss'));
 						}
 
 					}
+				}
+				else 
+				{
+					echo json_encode(array('status'=>'promblem with login'));
 				}
 			}
 		
@@ -103,6 +116,18 @@ class topup extends CI_Controller
 		}
 	}
 
+
+	public function listphone()
+	{
+		$phone = array();
+		$query = $this->db->get('topup');
+		foreach ($query->result() as $row)
+		{
+		        $phone[] = '0'.$row->phone;
+		}
+		echo json_encode($phone);
+	}
+
 	public function usedcode($walletcode)
 	{
 		$query = $this->db->get_where('walletcode', array('wallet_code' => $walletcode));
@@ -115,7 +140,6 @@ class topup extends CI_Controller
 	}
 	public function get_report($code,$oricode)
 	{
-		$code = (int)$code;
 		if($code == $oricode)
 		{
 			return true;

@@ -1,29 +1,25 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class addmatch extends CI_Controller{
-
   public function __construct()
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
   }
-
  	public function addcat()
 	{
-		if(isset($_POST['catname']))
+		$post = json_decode(file_get_contents('php://input'), true);
+		if(isset($post['name']))
 		{
-			if(isset($_POST['catimage']))
+			if(isset($post['img']))
 			{
-
 				$data = array(
-				        'cat_name' => $this->input->post('catname'),
-				        'cat_image' => $this->input->post('catimage'),
+				        'cat_name' =>$post['name'],
+				        'cat_image' => $post['img'],
 				);
-
 				if($this->db->insert('catgame', $data))
 				{
-					redirect($_POST['hostng'].'/addgame','refresh');
+					echo json_encode(array('status'=>'succ'));
 				}
 			}
 		}
@@ -31,11 +27,9 @@ class addmatch extends CI_Controller{
 	public function list_allcat()
 	{
 		$json = array();
-
 		$this->db->from('catgame');
 		$this->db->order_by("cat_id", "DESC");
 		$query = $this->db->get();
-
 		foreach ($query->result() as $row)
 		{
 		        $json[]=$row;
@@ -47,10 +41,9 @@ class addmatch extends CI_Controller{
 		$this->db->delete('catgame', array('cat_id' => $id));
 		if($this->db->affected_rows())
 			{
-			 	 redirect($this->config->item('hostng'),'refresh');
+			 	 echo json_encode(array('status'=>'succ'));
 			}	 
 	}
-
 	public function searchMatch($types,$value)
 	{
 		$noerr = true;
@@ -85,7 +78,6 @@ class addmatch extends CI_Controller{
 		}
 		if($noerr)
 		{			
-
 			$query = $this->db->get('matchgame');
 			if($query->num_rows() != 0)
 			{
@@ -99,25 +91,24 @@ class addmatch extends CI_Controller{
 	}
 	public function addgame()
 	{
-		if(!empty($_POST['nameTeam1']))
+		$post = json_decode(file_get_contents('php://input'), true);
+		if(isset($post))
 		{
-			$explode_cat=explode('*-*',$this->input->post('catid'));
 			$data = array(
-			        'team_1' => $this->input->post('nameTeam1'),
-			        'team_2' => $this->input->post('nameTeam2'),
-			        'team1pic' => $this->input->post('picTeam1'),
-			        'team2pic' => $this->input->post('picTeam2'),
-			        'day' => $this->input->post('day'),
-			        'month' => $this->input->post('month'),
-			        'year' => $this->input->post('year'),
-			        'time' => $this->input->post('time'),
-			        'cat_id' => $explode_cat[0],
-			        'cat_name' => $explode_cat[1] ,
+			        'team_1' =>$post['team1'],
+			        'team_2' => $post['team2'],
+			        'team1pic' => $post['pic1'],
+			        'team2pic' =>$post['pic2'],
+			        'day' => $post['day'],
+			        'month' => $post['month'],
+			        'year' => $post['year'],
+			        'time' => $post['time'],
+			        'cat_id' => $post['catid'],
+			        'cat_name' => $post['catname'],
 			);
-
 			if($this->db->insert('matchGame', $data))
 			{
-				redirect($this->config->item('hostng').'/addgame','refresh');
+				echo json_encode(array('status'=>'succ'));
 			}
 		}
 	}
@@ -140,27 +131,25 @@ class addmatch extends CI_Controller{
 		foreach ($query->result() as $row)
 		{
 		        $json[]=$row;
-
 		}
 		print_r(json_encode($json));
 	}
 	public function countData($table)
 	{
 		$query = $this->db->query("SELECT * FROM {$table}");
-
 		echo $query->num_rows();
 	}
-
 	public function addTeam()
 	{
-		if(isset($_POST['Name']))
+		$post = json_decode(file_get_contents('php://input'), true);
+		if(isset($post))
 		{
-			$teamName = $this->input->post('Name');
-			$teamImg = $this->input->post('Image');
+			$teamName = $post['name'];
+			$teamImg =  $post['img'];
 			$data = array('team_name'=>$teamName,'team_imageurl'=>$teamImg);
 			if($this->db->insert('storeteam', $data))
 			{
-				redirect($this->config->item('hostng').'/addgame','refresh');
+				echo json_encode(array('status'=>'succ'));
 			}
 		}
 	}
