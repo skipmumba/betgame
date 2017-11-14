@@ -9,6 +9,10 @@ class addmatch extends CI_Controller{
  	public function addcat()
 	{
 		$post = json_decode(file_get_contents('php://input'), true);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 40d425af4741bdce5424e5dc9376e212aa91d8ee
 		if(isset($post['name']))
 		{
 			if(isset($post['img']))

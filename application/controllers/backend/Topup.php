@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+<<<<<<< HEAD
 class topup extends CI_Controller{
+=======
+
+class topup extends CI_Controller{
+
+>>>>>>> 40d425af4741bdce5424e5dc9376e212aa91d8ee
   	public function __construct()
   	{
     	parent::__construct();
@@ -22,11 +28,21 @@ class topup extends CI_Controller{
 			}
 		}
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 40d425af4741bdce5424e5dc9376e212aa91d8ee
 	public function listtop()
 	{
 		$query = $this->db->get('topup');
 		echo json_encode($query->result());
+<<<<<<< HEAD
 	}
+=======
+
+	}
+
+>>>>>>> 40d425af4741bdce5424e5dc9376e212aa91d8ee
 	public function del($id)
 	{
 		$this->db->delete('topup', array('id' => $id));
