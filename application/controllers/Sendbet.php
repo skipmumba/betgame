@@ -7,7 +7,7 @@ class sendbet extends CI_Controller
  	}
 	public function index()
 	{
-		// $headers = apache_request_headers();
+		$headers = apache_request_headers();
 		if($this->jwtservice->getToken())
 		{
 			$data = json_decode(file_get_contents('php://input'),true);
@@ -41,12 +41,21 @@ class sendbet extends CI_Controller
 			foreach($data['matchinfo'] as $key => $value)
 			{
 				$info[$value['id']]['matchid'] = $value['matchId'];
+				$querytime = $this->db->get_where('matchgame', array('match_id' => $value['matchId']));
+				foreach($querytime->result() as $checks)
+				{
+					$checkTimeMatch = $this->game->statusGame($checks->day,$checks->month,$checks->year,$checks->time);
+					if($checkTimeMatch != 'ยังไม่แข่ง')
+					{
+						echo json_encode(array('betsuc'=>'timeout'));
+						exit;
+					}
+				}
 				$info[$value['id']]['team'] = $value['teamnum'];
 				$info[$value['id']]['codeuser'] = $data['codeuser'];
 			}
 			$checkError = array();
 			$haveError = false;
-
 
 			foreach($data['money'] as $key => $value)
 			{

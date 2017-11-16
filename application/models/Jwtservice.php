@@ -14,7 +14,7 @@ class jwtservice extends CI_Model
 	public function setToken($id)
 	{
 		$timeNow = time('Asia/Bangkok');
-		$timeExpire = intval($timeNow)+20;
+		$timeExpire = intval($timeNow)+3600;
 		$token = array(
 		    "code" => $id,
 		    "create" => $timeNow,
