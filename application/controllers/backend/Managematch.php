@@ -80,6 +80,7 @@ class managematch extends CI_Controller{
 		        'team1pic' => $post['pic1'],
 		        'team2pic' => $post['pic2'],
 		        'cat_id' => $post['catid'],
+		        'round' => $post['round'],
 		        'cat_name' => $catName,
 		        'day' => $post['day'],
 		        'month' => $post['month'],
@@ -156,6 +157,7 @@ class managematch extends CI_Controller{
 		       $matchDetail['name2'] = $row->team_2;
 		       $matchDetail['pic1'] = $row->team1pic;
 		       $matchDetail['pic2'] = $row->team2pic;
+		       $matchDetail['round'] = $row->round;
 		       $matchDetail['day'] = $row->day;
 		       $matchDetail['month'] = $row->month;
 		       $matchDetail['year'] = $row->year;

@@ -106,6 +106,7 @@ class addmatch extends CI_Controller{
 			        'time' => $post['time'],
 			        'cat_id' => $post['catid'],
 			        'cat_name' => $post['catname'],
+			        'round' => $post['round'],
 			);
 			if($this->db->insert('matchGame', $data))
 			{
