@@ -62,6 +62,7 @@ class getmatch extends CI_Controller
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['price2'] = $matchData->team2price;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['winner'] = $matchData->winner;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['time'] = $matchData->time;
+					$matchArray[$indexArray]['matchDetail'][$matchIn]['round'] = $matchData->round;
 					$matchArray[$indexArray]['matchDetail'][$matchIn]['statusgame'] = $this->game->statusGame($matchData->day,
 							$matchData->month,$matchData->year,$matchData->time,$matchData->statusgame);
 					if($matchArray[$indexArray]['matchDetail'][$matchIn]['statusgame'] != 'ยังไม่แข่ง')
